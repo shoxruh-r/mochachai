@@ -36,9 +36,16 @@ suite('Functional Tests', function () {
       chai
         .request(server)
         .put('/travellers')
+        .send({
+          name: 'Cristoforo',
+          surname: 'Colombo'
+        })
 
         .end(function (err, res) {
-          assert.fail();
+          assert.equal(res.status, 200)
+          assert.equal(res.type, 'application/json')
+          assert.equal(res.body.name, 'Cristoforo')
+          assert.equal(res.body.surname, 'Colombo')
 
           done();
         });
@@ -60,7 +67,7 @@ suite('Functional Tests with Zombie.js', function () {
 
 
   suite('Headless browser', function () {
-    test('should have a working "site" property', function() {
+    test('should have a working "site" property', function () {
       assert.isNotNull(browser.site);
     });
   });
