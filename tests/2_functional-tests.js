@@ -71,7 +71,8 @@ suite('Functional Tests', function () {
 });
 
 const Browser = require('zombie');
-Browser.site = 'https://boilerplate-mochachai.shoxruhr.repl.co'
+Browser.site = 'https://boilerplate-mochachai.shoxruhr.repl.co' // Repl
+// Browser.site = 'http://localhost:3000' // Local
 
 suite('Functional Tests with Zombie.js', function () {
   const browser = new Browser
@@ -91,7 +92,16 @@ suite('Functional Tests with Zombie.js', function () {
   suite('"Famous Italian Explorers" form', function () {
     // #5
     test('Submit the surname "Colombo" in the HTML form', function (done) {
-      assert.fail();
+      browser
+        .fill('surname', "Colombo")
+        .then(() => {
+          browser.pressButton('submit', () => {
+            browser.assert.success()
+            browser.assert.text('span#name', "Cristoforo")
+            browser.assert.text('span#surname', "Colombo")
+            browser.assert.elements('span#dates', 1)
+          })
+        })
 
       done();
     });
